@@ -33,7 +33,7 @@ jobs:
     # on issues opened against the fork itself. Without the guard the triage job
     # runs there, fails for want of CLAUDE_CODE_OAUTH_TOKEN, and the `comment` job
     # still posts its fallback message on someone else's issue.
-    if: github.repository == 'dbt-checkpoint/dbt-checkpoint'
+    if: github.repository == 'amos114514/dbt-checkpoint'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -53,8 +53,10 @@ jobs:
         run: rm -f "$RUNNER_TEMP/triage.md"
 
       - uses: anthropics/claude-code-action@v1
+        env:
+          ANTHROPIC_BASE_URL: ${{ vars.ANTHROPIC_BASE_URL }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # By default the action refuses to run when the triggering actor lacks write
           # access — which is every outside issue reporter, i.e. exactly the issues this
@@ -170,7 +172,7 @@ jobs:
     needs: triage
     # `always()` means this job runs even when `triage` is skipped, so it needs the
     # same repository guard rather than inheriting it via `needs`.
-    if: always() && github.repository == 'dbt-checkpoint/dbt-checkpoint'
+    if: always() && github.repository == 'amos114514/dbt-checkpoint'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
