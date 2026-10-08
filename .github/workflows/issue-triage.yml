@@ -106,6 +106,7 @@ jobs:
           # or .body into the prompt or a run: block — those are attacker-controlled.
           claude_args: >-
             --max-turns 60
+            --model claude-sonnet-4-6
             --allowedTools "Bash(gh issue view:*),Bash(gh issue list:*),Bash(gh label list:*),Read,Glob,Grep,Edit(/${{ runner.temp }}/triage.md)"
           prompt: |
             Take a first pass at a newly opened issue on the dbt-checkpoint project (a
